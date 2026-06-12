@@ -195,7 +195,8 @@
       try {
         const response = await fetch(fullUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          // Genom att köra text/plain slipper vi att webbläsaren gör en OPTIONS-preflight!
+          headers: { "Content-Type": "text/plain" },
           body: JSON.stringify(data)
         });
         const result = await response.json();
