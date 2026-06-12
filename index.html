@@ -22,19 +22,10 @@
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid rgba(212,175,55,0.4); flex-wrap: wrap; gap: 10px; }
     h1 { color: var(--gold); text-shadow: 2px 2px 6px #000; font-size: 2rem; letter-spacing: 2px; }
-    .stats { display: flex; gap: 15px; font-weight: bold; font-size: 1.1rem; flex-wrap: wrap; }
+    .stats { display: flex; gap: 15px; font-weight: bold; font-size: 1.1rem; align-items: center; }
     .stat-box { background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--gold); backdrop-filter: blur(4px); }
     .profit-pos { color: #4ade80; } .profit-neg { color: #f87171; }
-
-    /* AUTH MODAL */
-    #authModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-    .auth-box { background: linear-gradient(145deg, #1a1a1a, #2a2a2a); padding: 35px; border-radius: 15px; border: 3px solid var(--gold); max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow); }
-    .auth-box h2 { color: var(--gold); margin-bottom: 20px; letter-spacing: 1px; }
-    .auth-box input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid var(--gold); background: rgba(0,0,0,0.4); color: #fff; font-size: 1rem; font-weight: bold; }
-    .auth-box input:focus { outline: 2px solid var(--gold-light); }
-    .auth-btn-container { display: flex; gap: 10px; margin-top: 10px; }
-    .auth-box button { flex: 1; padding: 12px; font-size: 1rem; }
-    #authMessage { margin-top: 15px; color: #f87171; font-size: 0.95rem; min-height: 22px; font-weight: bold; }
+    #userDisplay { color: var(--gold-light); font-size: 0.9rem; margin-right: 10px; }
 
     /* WHEEL */
     .wheel-section { display: flex; justify-content: center; margin-bottom: 25px; position: relative; }
@@ -126,20 +117,32 @@
 
     .result-display { text-align: center; font-size: 1.4rem; min-height: 38px; color: var(--gold-light); font-weight: bold; text-shadow: 1px 1px 4px #000; letter-spacing: 1px; }
     @media (max-width: 900px) { .roulette-table { grid-template-columns: 45px repeat(12, 1fr) 45px; grid-template-rows: repeat(3, 48px); } .outside-grid { grid-template-columns: repeat(2, 1fr); } .cell { font-size: 0.85rem; } }
+
+    /* AUTH MODAL DIALOG */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 999; backdrop-filter: blur(5px); }
+    .modal-box { background: linear-gradient(145deg, #222, #111); padding: 30px; border-radius: 15px; border: 3px solid var(--gold); width: 340px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .modal-box h2 { color: var(--gold); margin-bottom: 20px; font-size: 1.6rem; letter-spacing: 1px; text-shadow: 1px 1px 3px #000; }
+    .modal-box input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.5); background: #2a2a2a; color: #fff; font-weight: bold; font-size: 1rem; text-align: center; }
+    .modal-box input:focus { outline: 2px solid var(--gold); }
+    .modal-buttons { display: flex; gap: 10px; margin-top: 8px; }
+    .modal-buttons button { flex: 1; padding: 12px; font-size: 0.95rem; }
+    .btn-primary { background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: #000; }
+    .btn-secondary { background: #333; color: var(--gold); border: 1px solid var(--gold); }
+    .auth-error { color: #f87171; margin-top: 15px; font-size: 0.9rem; min-height: 20px; font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <div id="authModal">
-    <div class="auth-box">
-      <h2>🎰 Vegas Roulette Login</h2>
-      <input type="text" id="authUsername" placeholder="Användarnamn">
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-box">
+      <h2>🎰 VEGAS CASINO</h2>
+      <input type="text" id="authUsername" placeholder="Användarnamn" autocomplete="username">
       <input type="password" id="authPassword" placeholder="Lösenord">
-      <div class="auth-btn-container">
-        <button id="loginFormBtn" style="background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: #000;">Logga in</button>
-        <button id="registerFormBtn" style="background: #27ae60; color: white;">Registrera</button>
+      <div class="modal-buttons">
+        <button id="loginBtn" class="btn-primary">Logga in</button>
+        <button id="registerBtn" class="btn-secondary">Skapa konto</button>
       </div>
-      <div id="authMessage">Klicka var som helst för att aktivera ljudet först.</div>
+      <div class="auth-error" id="authError"></div>
     </div>
   </div>
 
@@ -147,9 +150,9 @@
     <header>
       <h1>🎰 Vegas Roulette</h1>
       <div class="stats">
-        <div class="stat-box">Spelare: <span id="userDisplay">Gäst</span></div>
-        <div class="stat-box">Balance: $<span id="balance">0</span></div>
-        <div class="stat-box">Skuld: $<span id="loanDisplay">0</span></div>
+        <span id="userDisplay"></span>
+        <div class="stat-box">Balance: $<span id="balance">1000</span></div>
+        <div class="stat-box">Loan: $<span id="loanAmount">0</span></div>
         <div class="stat-box">P/L: $<span id="profit">0</span></div>
       </div>
     </header>
@@ -171,29 +174,43 @@
 
     <div class="controls">
       <label>Bet: $<input type="number" id="betAmount" value="10" min="1" step="5"></label>
-      <button id="spinBtn">🎲 SPIN</button>
+      <button id="spinBtn" disabled>🎲 SPIN</button>
       <button id="clearBtn">🗑️ Clear Bets</button>
-      <button id="loanBtn">💰 Ta lån ($1000)</button>
-      <button id="repayBtn">💳 Betala lån ($1000)</button>
+      <button id="loanBtn">💰 Ta Lån ($1000)</button>
+      <button id="repayBtn">💳 Betala Lån ($1000)</button>
     </div>
     <div class="result-display" id="resultText">Logga in för att börja spela...</div>
   </div>
 
   <script>
-    // 🌐 API-konfiguration till din Worker
-    const API_URL = "https://broad-flower-970d.johan.workers.dev/api";
+    // 🌐 API CONFIGURATION (Fixar automatiskt snedstrecksproblem)
+    const API_BASE = "https://broad-flower-970d.johan.workers.dev";
 
-    // 🎵 AUDIO SYSTEM
+    async function fetchFromWorker(endpoint, data = {}) {
+      // Rensar bort eventuella extra snedstreck i slutet av bas-URLen och början av endpointen
+      const cleanBase = API_BASE.replace(/\/+$/, "");
+      const cleanEndpoint = endpoint.replace(/^\/+/, "");
+      const fullUrl = `${cleanBase}/${cleanEndpoint}`;
+
+      try {
+        const response = await fetch(fullUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Okänt serverfel.");
+        return result;
+      } catch (err) {
+        console.error("API-fel:", err);
+        throw err;
+      }
+    }
+
+    // 🎵 AUDIO SYSTEM (Web Audio API)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let audioEnabled = false;
-    document.addEventListener('click', () => { 
-      if (!audioEnabled) {
-        audioCtx.resume().then(() => {
-          audioEnabled = true;
-          document.getElementById('authMessage').textContent = "Ljud aktiverat! Logga in eller skapa konto.";
-        });
-      }
-    }, { once: true });
+    document.addEventListener('click', () => { if (!audioEnabled) audioCtx.resume().then(() => audioEnabled = true); }, { once: true });
 
     const noiseBuffer = (() => {
       const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 2, audioCtx.sampleRate);
@@ -232,8 +249,8 @@
       }
     };
 
-    // 🎲 GAME STATE
-    const state = { username: null, balance: 0, initialBalance: 0, loan_amount: 0, bets: {}, isSpinning: false };
+    // 🎲 GAME LOGIC & STATE
+    const state = { username: null, balance: 1000, loan_amount: 0, initialBalance: 1000, bets: {}, isSpinning: false };
     const americanSequence = [0,28,9,26,30,11,7,20,32,17,5,22,34,15,3,24,36,13,1,00,27,10,25,29,12,8,19,31,18,6,21,33,16,4,23,35,14,2];
     const redNums = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
     const pocketAngle = 360 / 38;
@@ -248,80 +265,62 @@
     const clearBtn = document.getElementById('clearBtn');
     const resultText = document.getElementById('resultText');
 
-    // 🔑 AUTHENTICATION LOGIC (Frontend-kopplingar till Workern)
-    function setupSession(user) {
-      state.username = user.username;
-      state.balance = user.balance;
-      state.initialBalance = user.balance; // Sparar startpunkt för P/L
-      state.loan_amount = user.loan_amount || 0;
-      
-      document.getElementById('userDisplay').textContent = state.username;
-      document.getElementById('authModal').style.display = 'none';
-      resultText.textContent = "Placera dina insatser...";
-      updateUI();
-    }
+    // AUTH ACTIONS
+    document.getElementById('loginBtn').addEventListener('click', () => handleAuth('api/login'));
+    document.getElementById('registerBtn').addEventListener('click', () => handleAuth('api/register'));
 
     async function handleAuth(endpoint) {
-      const u = document.getElementById('authUsername').value.trim();
-      const p = document.getElementById('authPassword').value;
-      const msg = document.getElementById('authMessage');
-
-      if (!u || !p) { msg.textContent = "Ange både användarnamn och lösenord."; return; }
-      msg.textContent = "Ansluter...";
+      const usernameInput = document.getElementById('authUsername').value.trim();
+      const passwordInput = document.getElementById('authPassword').value;
+      const errorDiv = document.getElementById('authError');
+      
+      if (!usernameInput || !passwordInput) {
+        errorDiv.textContent = "Fyll i både användarnamn och lösenord.";
+        return;
+      }
 
       try {
-        const res = await fetch(`${API_URL}/${endpoint}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: u, password: p })
-        });
-        const data = await res.json();
-        if (data.error) { msg.textContent = data.error; } 
-        else { setupSession(data); }
+        errorDiv.textContent = "Ansluter...";
+        const data = await fetchFromWorker(endpoint, { username: usernameInput, password: passwordInput });
+        
+        // Sätt spelarens Cloudflare-data i state
+        state.username = data.username;
+        state.balance = data.balance;
+        state.loan_amount = data.loan_amount || 0;
+        state.initialBalance = data.balance; // Nollställ P/L-startpunkt för sessionen
+        
+        // Uppdatera UI och stäng fönstret
+        document.getElementById('userDisplay').textContent = `Spelare: ${state.username}`;
+        document.getElementById('authModal').style.display = 'none';
+        spinBtn.disabled = false;
+        resultText.textContent = "Välkommen! Lägg dina insatser och spinn.";
+        updateUI();
       } catch (err) {
-        msg.textContent = "Nätverksfel eller felaktig konfiguration.";
-        console.error(err);
+        errorDiv.textContent = err.message;
       }
     }
 
-    document.getElementById('loginFormBtn').addEventListener('click', () => handleAuth('login'));
-    document.getElementById('registerFormBtn').addEventListener('click', () => handleAuth('register'));
-
-    // 💰 LÅNEHANTERING (Kopplat till API)
+    // LOAN ACTIONS
     document.getElementById('loanBtn').addEventListener('click', async () => {
-      if (!state.username || state.isSpinning) return;
+      if (state.isSpinning || !state.username) return;
       try {
-        const res = await fetch(`${API_URL}/loan`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: state.username, amount: 1000 })
-        });
-        const data = await res.json();
-        if (data.error) alert(data.error);
-        else {
-          state.balance = data.balance;
-          state.loan_amount = data.loan_amount;
-          updateUI();
-        }
-      } catch(e) { alert("Kunde inte ta lån."); }
+        const data = await fetchFromWorker('api/loan', { username: state.username, amount: 1000 });
+        state.balance = data.balance;
+        state.loan_amount = data.loan_amount;
+        updateUI();
+        resultText.textContent = "Lån på $1000 beviljat!";
+      } catch (err) { alert(err.message); }
     });
 
     document.getElementById('repayBtn').addEventListener('click', async () => {
-      if (!state.username || state.isSpinning) return;
+      if (state.isSpinning || !state.username) return;
       try {
-        const res = await fetch(`${API_URL}/repay`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: state.username, amount: 1000 })
-        });
-        const data = await res.json();
-        if (data.error) alert(data.error);
-        else {
-          state.balance = data.balance;
-          state.loan_amount = data.loan_amount;
-          updateUI();
-        }
-      } catch(e) { alert("Kunde inte betala av lån."); }
+        const data = await fetchFromWorker('api/repay', { username: state.username, amount: 1000 });
+        state.balance = data.balance;
+        state.loan_amount = data.loan_amount;
+        updateUI();
+        resultText.textContent = "Betalade tillbaka $1000 på lånet.";
+      } catch (err) { alert(err.message); }
     });
 
     // Build SVG Wheel
@@ -369,12 +368,12 @@
     }
     function updateUI() {
       document.getElementById('balance').textContent=state.balance;
-      document.getElementById('loanDisplay').textContent=state.loan_amount;
+      document.getElementById('loanAmount').textContent=state.loan_amount;
       const profit=state.balance-state.initialBalance;
       const pEl=document.getElementById('profit'); pEl.textContent=profit>=0?`+${profit}`:profit; pEl.parentElement.className=profit>=0?'profit-pos':'profit-neg';
     }
     function clearBets() {
-      if(state.isSpinning) return;
+      if(state.isSpinning || !state.username) return;
       for(let k in state.bets) state.balance+=state.bets[k]; state.bets={};
       document.querySelectorAll('.chip').forEach(c=>c.remove());
       document.querySelectorAll('.win-highlight').forEach(c=>c.classList.remove('win-highlight'));
@@ -386,7 +385,7 @@
     clearBtn.addEventListener('click', clearBets);
 
     function spinWheel() {
-      if(state.isSpinning) return;
+      if(state.isSpinning || !state.username) return;
       if(Object.keys(state.bets).length===0) return alert('Place at least one bet!');
       state.isSpinning=true; spinBtn.disabled=true;
       document.querySelectorAll('.dolly').forEach(d=>d.remove());
@@ -418,10 +417,12 @@
         ball.style.left=`${cx+currentR*Math.cos(rad)}px`;
         ball.style.top=`${cy+currentR*Math.sin(rad)}px`;
 
+        // Audio ticks sync with speed
         if(progress-lastTickP > (0.04-ease*0.035)) { sound.tick(); lastTickP=progress; }
 
         if(progress<1) requestAnimationFrame(frame);
         else {
+          // Drop to indicator at top
           ball.style.transition='top 0.4s ease-out, width 0.2s, height 0.2s';
           ball.style.left='50%'; ball.style.top='22px';
           ball.style.width='14px'; ball.style.height='14px';
@@ -457,28 +458,21 @@
       }
 
       state.balance+=totalWin;
+      if(totalWin>0) sound.win();
+      resultText.textContent = `Result: ${result} | Payout: $${totalWin} (Synkar...)`;
 
-      // 🔄 SYNKRONISERA SALDO TILL CLOUDFLARE WORKER
-      if (state.username) {
-        try {
-          const res = await fetch(`${API_URL}/sync`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: state.username, balance: state.balance })
-          });
-          const data = await res.json();
-          if (!data.error) {
-            state.balance = data.balance;
-            state.loan_amount = data.loan_amount; // Tar emot det nya saldot inklusive räntepåslaget
-          }
-        } catch (e) {
-          console.error("Kunde inte synka saldo till KV", e);
-        }
+      // 🔄 SYNKRONISERA AUTOMATISKT TILL CLOUDFLARE WORKER KV
+      try {
+        const data = await fetchFromWorker('api/sync', { username: state.username, balance: state.balance });
+        state.balance = data.balance;
+        state.loan_amount = data.loan_amount; // Tar även med den uppdaterade räntan (+1.5%)
+        resultText.textContent = `Result: ${result} | Payout: $${totalWin}`;
+      } catch (err) {
+        console.error("Kunde inte synka saldot till molnet:", err);
+        resultText.textContent = `Result: ${result} | Payout: $${totalWin} (Synk misslyckades)`;
       }
 
       updateUI();
-      if(totalWin>0) sound.win();
-      resultText.textContent=`Result: ${result} | Payout: $${totalWin}`;
       
       setTimeout(()=>{
         document.querySelectorAll('.chip').forEach(c=>c.remove());
