@@ -13,27 +13,28 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
     body { background: radial-gradient(circle at center, #2a2a2a, #111); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
     
-    /* AUTH SCREEN */
-    #authOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(8px); }
-    .auth-box { background: linear-gradient(145deg, #2c3e50, #1a252f); padding: 40px; border-radius: 15px; border: 2px solid var(--gold); box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center; }
-    .auth-box h2 { color: var(--gold); margin-bottom: 20px; letter-spacing: 1px; }
-    .auth-box input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #444; background: rgba(0,0,0,0.4); color: white; font-size: 1rem; }
-    .auth-box button { width: 100%; padding: 12px; margin-top: 15px; font-weight: bold; font-size: 1rem; background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: black; border: none; border-radius: 6px; cursor: pointer; }
-    .auth-box .toggle-link { color: #aaa; margin-top: 15px; display: inline-block; cursor: pointer; text-decoration: underline; font-size: 0.9rem; }
-
-    /* CONTAINER */
     .container {
       background: linear-gradient(145deg, var(--felt), var(--felt-dark));
       padding: 25px; border-radius: 20px;
       box-shadow: var(--shadow), inset 0 0 60px rgba(0,0,0,0.4);
-      border: 4px solid var(--gold); max-width: 1100px; width: 100%; display: none;
+      border: 4px solid var(--gold); max-width: 1100px; width: 100%;
     }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid rgba(212,175,55,0.4); flex-wrap: wrap; gap: 10px; }
     h1 { color: var(--gold); text-shadow: 2px 2px 6px #000; font-size: 2rem; letter-spacing: 2px; }
-    .stats { display: flex; gap: 15px; font-weight: bold; font-size: 1rem; flex-wrap: wrap; }
+    .stats { display: flex; gap: 15px; font-weight: bold; font-size: 1.1rem; flex-wrap: wrap; }
     .stat-box { background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--gold); backdrop-filter: blur(4px); }
-    .net-asset { color: #4ade80; } .net-debt { color: #f87171; }
+    .profit-pos { color: #4ade80; } .profit-neg { color: #f87171; }
+
+    /* AUTH MODAL */
+    #authModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+    .auth-box { background: linear-gradient(145deg, #1a1a1a, #2a2a2a); padding: 35px; border-radius: 15px; border: 3px solid var(--gold); max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow); }
+    .auth-box h2 { color: var(--gold); margin-bottom: 20px; letter-spacing: 1px; }
+    .auth-box input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid var(--gold); background: rgba(0,0,0,0.4); color: #fff; font-size: 1rem; font-weight: bold; }
+    .auth-box input:focus { outline: 2px solid var(--gold-light); }
+    .auth-btn-container { display: flex; gap: 10px; margin-top: 10px; }
+    .auth-box button { flex: 1; padding: 12px; font-size: 1rem; }
+    #authMessage { margin-top: 15px; color: #f87171; font-size: 0.95rem; min-height: 22px; font-weight: bold; }
 
     /* WHEEL */
     .wheel-section { display: flex; justify-content: center; margin-bottom: 25px; position: relative; }
@@ -109,14 +110,19 @@
     .controls input { width: 80px; padding: 8px; border: none; border-radius: 5px; text-align: center; font-weight: bold; font-size: 1rem; background: rgba(0,0,0,0.2); color: var(--gold-light); }
     .controls input:focus { outline: 2px solid var(--gold); }
     button { padding: 10px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; letter-spacing: 0.5px; }
+    
     #spinBtn { background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: #000; box-shadow: 0 5px 0 #997a15, 0 4px 12px rgba(0,0,0,0.4); }
     #spinBtn:hover { filter: brightness(1.1); } #spinBtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #997a15; }
     #spinBtn:disabled { background: #555; cursor: not-allowed; box-shadow: none; }
+    
     #clearBtn { background: linear-gradient(180deg, #e74c3c, #c0392b); color: white; box-shadow: 0 5px 0 #8b1a10, 0 4px 12px rgba(0,0,0,0.4); }
     #clearBtn:hover { filter: brightness(1.15); } #clearBtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #8b1a10; }
 
-    .loan-btn { background: linear-gradient(180deg, #3498db, #2980b9); color: white; padding: 6px 12px; font-size: 0.85rem; margin-left: 5px; border-radius: 4px; }
-    .repay-btn { background: linear-gradient(180deg, #9b59b6, #8e44ad); color: white; padding: 6px 12px; font-size: 0.85rem; margin-left: 5px; border-radius: 4px; }
+    #loanBtn { background: linear-gradient(180deg, #3498db, #2980b9); color: white; box-shadow: 0 5px 0 #1f618d, 0 4px 12px rgba(0,0,0,0.4); }
+    #loanBtn:hover { filter: brightness(1.15); } #loanBtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #1f618d; }
+
+    #repayBtn { background: linear-gradient(180deg, #9b59b6, #8e44ad); color: white; box-shadow: 0 5px 0 #6c3483, 0 4px 12px rgba(0,0,0,0.4); }
+    #repayBtn:hover { filter: brightness(1.15); } #repayBtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #6c3483; }
 
     .result-display { text-align: center; font-size: 1.4rem; min-height: 38px; color: var(--gold-light); font-weight: bold; text-shadow: 1px 1px 4px #000; letter-spacing: 1px; }
     @media (max-width: 900px) { .roulette-table { grid-template-columns: 45px repeat(12, 1fr) 45px; grid-template-rows: repeat(3, 48px); } .outside-grid { grid-template-columns: repeat(2, 1fr); } .cell { font-size: 0.85rem; } }
@@ -124,28 +130,27 @@
 </head>
 <body>
 
-  <div id="authOverlay">
+  <div id="authModal">
     <div class="auth-box">
-      <h2 id="authTitle">Logga in till Vegas Table</h2>
+      <h2>🎰 Vegas Roulette Login</h2>
       <input type="text" id="authUsername" placeholder="Användarnamn">
       <input type="password" id="authPassword" placeholder="Lösenord">
-      <button id="authBtn">Logga in</button>
-      <div id="authToggle" class="toggle-link">Inget konto? Registrera dig här</div>
+      <div class="auth-btn-container">
+        <button id="loginFormBtn" style="background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: #000;">Logga in</button>
+        <button id="registerFormBtn" style="background: #27ae60; color: white;">Registrera</button>
+      </div>
+      <div id="authMessage">Klicka var som helst för att aktivera ljudet först.</div>
     </div>
   </div>
 
-  <div class="container" id="gameContainer">
+  <div class="container">
     <header>
       <h1>🎰 Vegas Roulette</h1>
       <div class="stats">
-        <div class="stat-box">Spelare: <span id="userDisplay" style="color:var(--gold-light);"></span></div>
-        <div class="stat-box">Netto-Saldo: <span id="netSaldo">0</span></div>
-        <div class="stat-box">Marker: $<span id="balance">0</span></div>
-        <div class="stat-box">
-          Skuld: $<span id="loanDisplay">0</span>
-          <button class="loan-btn" onclick="takeLoan()">Låna $1000</button>
-          <button class="repay-btn" onclick="repayLoan()">Betala lån</button>
-        </div>
+        <div class="stat-box">Spelare: <span id="userDisplay">Gäst</span></div>
+        <div class="stat-box">Balance: $<span id="balance">0</span></div>
+        <div class="stat-box">Skuld: $<span id="loanDisplay">0</span></div>
+        <div class="stat-box">P/L: $<span id="profit">0</span></div>
       </div>
     </header>
 
@@ -168,21 +173,27 @@
       <label>Bet: $<input type="number" id="betAmount" value="10" min="1" step="5"></label>
       <button id="spinBtn">🎲 SPIN</button>
       <button id="clearBtn">🗑️ Clear Bets</button>
+      <button id="loanBtn">💰 Ta lån ($1000)</button>
+      <button id="repayBtn">💳 Betala lån ($1000)</button>
     </div>
-    <div class="result-display" id="resultText">Click anywhere to enable sound • Place your bets...</div>
+    <div class="result-display" id="resultText">Logga in för att börja spela...</div>
   </div>
 
   <script>
-    // 🌐 BACKEND KONFIGURATION
-    const WORKER_URL = 'https://broad-flower-970d.johan.workers.dev'; // <-- SÄKERSTÄLL ATT DENNA ÄR RÄTT
-
-    // Säkerhetsspärr mot dubbla snedstreck (Tar bort eventuella snedstreck i slutet av URL:en)
-    const CLEAN_WORKER_URL = WORKER_URL.replace(/\/+$/, '');
+    // 🌐 API-konfiguration till din Worker
+    const API_URL = "https://broad-flower-970d.johan.workers.dev/api";
 
     // 🎵 AUDIO SYSTEM
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let audioEnabled = false;
-    document.addEventListener('click', () => { if (!audioEnabled) audioCtx.resume().then(() => audioEnabled = true); }, { once: true });
+    document.addEventListener('click', () => { 
+      if (!audioEnabled) {
+        audioCtx.resume().then(() => {
+          audioEnabled = true;
+          document.getElementById('authMessage').textContent = "Ljud aktiverat! Logga in eller skapa konto.";
+        });
+      }
+    }, { once: true });
 
     const noiseBuffer = (() => {
       const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 2, audioCtx.sampleRate);
@@ -221,10 +232,8 @@
       }
     };
 
-    // 🎲 GAME LOGIC & STATE
-    const state = { username: "", balance: 0, loan_amount: 0, bets: {}, isSpinning: false };
-    let isLoginView = true;
-
+    // 🎲 GAME STATE
+    const state = { username: null, balance: 0, initialBalance: 0, loan_amount: 0, bets: {}, isSpinning: false };
     const americanSequence = [0,28,9,26,30,11,7,20,32,17,5,22,34,15,3,24,36,13,1,00,27,10,25,29,12,8,19,31,18,6,21,33,16,4,23,35,14,2];
     const redNums = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
     const pocketAngle = 360 / 38;
@@ -239,72 +248,81 @@
     const clearBtn = document.getElementById('clearBtn');
     const resultText = document.getElementById('resultText');
 
-    // AUTH UI INTERACTION
-    document.getElementById('authToggle').addEventListener('click', () => {
-      isLoginView = !isLoginView;
-      document.getElementById('authTitle').textContent = isLoginView ? 'Logga in till Vegas Table' : 'Registrera nytt konto';
-      document.getElementById('authBtn').textContent = isLoginView ? 'Logga in' : 'Registrera dig';
-      document.getElementById('authToggle').textContent = isLoginView ? 'Inget konto? Registrera dig här' : 'Har du redan ett konto? Logga in';
-    });
+    // 🔑 AUTHENTICATION LOGIC (Frontend-kopplingar till Workern)
+    function setupSession(user) {
+      state.username = user.username;
+      state.balance = user.balance;
+      state.initialBalance = user.balance; // Sparar startpunkt för P/L
+      state.loan_amount = user.loan_amount || 0;
+      
+      document.getElementById('userDisplay').textContent = state.username;
+      document.getElementById('authModal').style.display = 'none';
+      resultText.textContent = "Placera dina insatser...";
+      updateUI();
+    }
 
-    document.getElementById('authBtn').addEventListener('click', async () => {
-      const u = document.getElementById('authUsername').value;
+    async function handleAuth(endpoint) {
+      const u = document.getElementById('authUsername').value.trim();
       const p = document.getElementById('authPassword').value;
-      const path = isLoginView ? '/api/login' : '/api/register';
+      const msg = document.getElementById('authMessage');
+
+      if (!u || !p) { msg.textContent = "Ange både användarnamn och lösenord."; return; }
+      msg.textContent = "Ansluter...";
 
       try {
-        const res = await fetch(`${CLEAN_WORKER_URL}${path}`, {
+        const res = await fetch(`${API_URL}/${endpoint}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: u, password: p })
         });
         const data = await res.json();
-        if (data.error) return alert(data.error);
-
-        state.username = data.username;
-        state.balance = data.balance;
-        state.loan_amount = data.loan_amount;
-
-        document.getElementById('authOverlay').style.display = 'none';
-        document.getElementById('gameContainer').style.display = 'block';
-        document.getElementById('userDisplay').textContent = state.username;
-        updateUI();
-      } catch(e) {
-        alert('Kunde inte ansluta till servern: ' + e.message);
+        if (data.error) { msg.textContent = data.error; } 
+        else { setupSession(data); }
+      } catch (err) {
+        msg.textContent = "Nätverksfel eller felaktig konfiguration.";
+        console.error(err);
       }
+    }
+
+    document.getElementById('loginFormBtn').addEventListener('click', () => handleAuth('login'));
+    document.getElementById('registerFormBtn').addEventListener('click', () => handleAuth('register'));
+
+    // 💰 LÅNEHANTERING (Kopplat till API)
+    document.getElementById('loanBtn').addEventListener('click', async () => {
+      if (!state.username || state.isSpinning) return;
+      try {
+        const res = await fetch(`${API_URL}/loan`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: state.username, amount: 1000 })
+        });
+        const data = await res.json();
+        if (data.error) alert(data.error);
+        else {
+          state.balance = data.balance;
+          state.loan_amount = data.loan_amount;
+          updateUI();
+        }
+      } catch(e) { alert("Kunde inte ta lån."); }
     });
 
-    // LOAN HANDLING
-    async function takeLoan() {
-      if(state.isSpinning) return;
+    document.getElementById('repayBtn').addEventListener('click', async () => {
+      if (!state.username || state.isSpinning) return;
       try {
-        const res = await fetch(`${CLEAN_WORKER_URL}/api/loan`, {
+        const res = await fetch(`${API_URL}/repay`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: state.username, amount: 1000 })
         });
         const data = await res.json();
-        state.balance = data.balance;
-        state.loan_amount = data.loan_amount;
-        updateUI();
-      } catch(e) { alert(e.message); }
-    }
-
-    async function repayLoan() {
-      if(state.isSpinning) return;
-      if(state.loan_amount <= 0) return alert('Du har inga aktiva lån att betala av!');
-      try {
-        const res = await fetch(`${CLEAN_WORKER_URL}/api/repay`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: state.username, amount: 1000 })
-        });
-        const data = await res.json();
-        state.balance = data.balance;
-        state.loan_amount = data.loan_amount;
-        updateUI();
-      } catch(e) { alert(e.message); }
-    }
+        if (data.error) alert(data.error);
+        else {
+          state.balance = data.balance;
+          state.loan_amount = data.loan_amount;
+          updateUI();
+        }
+      } catch(e) { alert("Kunde inte betala av lån."); }
+    });
 
     // Build SVG Wheel
     function buildWheel() {
@@ -340,32 +358,21 @@
     }
 
     function placeBet(type, val, cell) {
-      if(state.isSpinning) return;
+      if(state.isSpinning || !state.username) return;
       const amount = parseInt(betInput.value)||10;
-      if(amount>state.balance) return alert('Du har inte tillräckligt med marker på hand!');
+      if(amount>state.balance) return alert('Insufficient balance!');
       if(amount<1) return;
       const key=`${type}_${val}`; state.bets[key]=(state.bets[key]||0)+amount; state.balance-=amount; updateUI(); renderChip(cell, state.bets[key]); sound.chip();
     }
     function renderChip(cell, amount) {
       let chip=cell.querySelector('.chip'); if(!chip){chip=document.createElement('div');chip.className='chip';cell.appendChild(chip);} chip.textContent=amount;
     }
-    
     function updateUI() {
-      document.getElementById('balance').textContent = Math.floor(state.balance);
-      document.getElementById('loanDisplay').textContent = Math.floor(state.loan_amount);
-      
-      const net = state.balance - state.loan_amount;
-      const netEl = document.getElementById('netSaldo');
-      
-      if (net >= 0) {
-        netEl.textContent = `$${Math.floor(net)} (Tillgång)`;
-        netEl.className = 'net-asset';
-      } else {
-        netEl.textContent = `-$${Math.floor(Math.abs(net))} (Skuld)`;
-        netEl.className = 'net-debt';
-      }
+      document.getElementById('balance').textContent=state.balance;
+      document.getElementById('loanDisplay').textContent=state.loan_amount;
+      const profit=state.balance-state.initialBalance;
+      const pEl=document.getElementById('profit'); pEl.textContent=profit>=0?`+${profit}`:profit; pEl.parentElement.className=profit>=0?'profit-pos':'profit-neg';
     }
-
     function clearBets() {
       if(state.isSpinning) return;
       for(let k in state.bets) state.balance+=state.bets[k]; state.bets={};
@@ -389,10 +396,12 @@
       const winIndex=Math.floor(Math.random()*38); const winNum=americanSequence[winIndex];
       const finalRotation=-(winIndex*pocketAngle)-(3+Math.floor(Math.random()*2))*360;
 
+      // Reset visuals
       wheel.style.transition='none'; wheel.style.transform='rotate(0deg)';
       ball.style.opacity='1'; ball.style.width='16px'; ball.style.height='16px';
       ball.style.left='50%'; ball.style.top='15px'; void wheel.offsetWidth;
 
+      // Animate
       wheel.style.transition='transform 5s cubic-bezier(0.15, 0.8, 0.2, 1)';
       wheel.style.transform=`rotate(${finalRotation}deg)`;
       sound.spin();
@@ -447,19 +456,25 @@
         if(won) totalWin+=amount*(mult+1);
       }
 
-      state.balance += totalWin;
+      state.balance+=totalWin;
 
-      // Synka med databasen (Hanterar även räntan på backend)
-      try {
-        const res = await fetch(`${CLEAN_WORKER_URL}/api/sync`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: state.username, balance: state.balance })
-        });
-        const data = await res.json();
-        state.balance = data.balance;
-        state.loan_amount = data.loan_amount;
-      } catch(e) { console.error("Synkfel: ", e); }
+      // 🔄 SYNKRONISERA SALDO TILL CLOUDFLARE WORKER
+      if (state.username) {
+        try {
+          const res = await fetch(`${API_URL}/sync`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: state.username, balance: state.balance })
+          });
+          const data = await res.json();
+          if (!data.error) {
+            state.balance = data.balance;
+            state.loan_amount = data.loan_amount; // Tar emot det nya saldot inklusive räntepåslaget
+          }
+        } catch (e) {
+          console.error("Kunde inte synka saldo till KV", e);
+        }
+      }
 
       updateUI();
       if(totalWin>0) sound.win();
