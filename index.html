@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +20,8 @@
     .auth-box input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #444; background: rgba(0,0,0,0.4); color: white; font-size: 1rem; }
     .auth-box button { width: 100%; padding: 12px; margin-top: 15px; font-weight: bold; font-size: 1rem; background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: black; border: none; border-radius: 6px; cursor: pointer; }
     .auth-box .toggle-link { color: #aaa; margin-top: 15px; display: inline-block; cursor: pointer; text-decoration: underline; font-size: 0.9rem; }
-    
-    /* MAIN CONTAINER */
+
+    /* CONTAINER */
     .container {
       background: linear-gradient(145deg, var(--felt), var(--felt-dark));
       padding: 25px; border-radius: 20px;
@@ -49,32 +49,57 @@
       background: radial-gradient(circle at 30% 30%, #ffd700, #8b6508);
       border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.7); z-index: 25;
     }
-    .ball-track { position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); pointer-events: none; z-index: 5; }
-    #ball { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, #ccc, #888); box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 20; opacity: 0; transition: opacity 0.3s ease, width 0.2s, height 0.2s; }
-    .drop-indicator { position: absolute; top: 2px; left: 50%; transform: translateX(-50%); width: 10px; height: 14px; background: var(--gold-light); border-radius: 50% 50% 3px 3px; box-shadow: 0 2px 6px #000; z-index: 30; }
+    .ball-track {
+      position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px;
+      border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); pointer-events: none; z-index: 5;
+    }
+    #ball {
+      position: absolute; width: 16px; height: 16px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #ccc, #888);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 20; opacity: 0;
+      transition: opacity 0.3s ease, width 0.2s, height 0.2s;
+    }
+    .drop-indicator {
+      position: absolute; top: 2px; left: 50%; transform: translateX(-50%);
+      width: 10px; height: 14px; background: var(--gold-light);
+      border-radius: 50% 50% 3px 3px; box-shadow: 0 2px 6px #000; z-index: 30;
+    }
 
     /* TABLE */
     .table-section { margin-bottom: 20px; }
-    .roulette-table { display: grid; grid-template-columns: 55px repeat(12, 1fr); grid-template-rows: repeat(3, 58px); gap: 3px; margin-bottom: 12px; }
+    .roulette-table { display: grid; grid-template-columns: 55px repeat(12, 1fr) 55px; grid-template-rows: repeat(3, 58px); gap: 3px; margin-bottom: 12px; }
     .cell { background: rgba(0,0,0,0.15); border: 1px solid rgba(212,175,55,0.6); display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; font-weight: 700; font-size: 1rem; transition: all 0.15s; user-select: none; border-radius: 5px; }
     .cell:hover { transform: scale(1.06); filter: brightness(1.25); z-index: 2; }
     .cell.red { background: var(--red); border-color: #e74c3c; color: #fff; }
     .cell.black { background: var(--black); border-color: #34495e; color: #fff; }
     .cell.green { background: var(--green); border-color: #2ecc71; color: #fff; }
     .zero { grid-column: 1; grid-row: 1 / 4; font-size: 1.3rem; }
+    .double-zero { grid-column: 14; grid-row: 1 / 4; font-size: 1.3rem; }
 
     .outside-grid { display: grid; grid-template-columns: repeat(4, 1fr) 130px 130px 130px; gap: 4px; margin-bottom: 15px; }
     .outside-grid .cell { min-height: 48px; font-size: 0.9rem; background: rgba(0,0,0,0.25); letter-spacing: 1px; }
     .outside-grid .cell:hover { background: rgba(212,175,55,0.25); }
 
-    /* CHIPS, MARKERS & DOLLY */
-    .chip { position: absolute; width: 32px; height: 32px; background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b 40%, #8b6508 70%); border: 3px dashed #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.7rem; color: #000; font-weight: bold; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 4px 8px rgba(0,0,0,0.7), inset 0 -2px 4px rgba(0,0,0,0.4); pointer-events: none; z-index: 10; animation: drop 0.25s cubic-bezier(0.3, 0, 0.2, 1); }
+    /* CHIPS & DOLLY */
+    .chip {
+      position: absolute; width: 32px; height: 32px;
+      background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b 40%, #8b6508 70%);
+      border: 3px dashed #fff; border-radius: 50%;
+      display: flex; justify-content: center; align-items: center;
+      font-size: 0.7rem; color: #000; font-weight: bold;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.7), inset 0 -2px 4px rgba(0,0,0,0.4);
+      pointer-events: none; z-index: 10; animation: drop 0.25s cubic-bezier(0.3, 0, 0.2, 1);
+    }
     @keyframes drop { 0% { transform: translate(-50%, -80%) scale(1.3); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 
-    .bet-marker { position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background-color: var(--gold-light); border-radius: 50%; box-shadow: 0 0 6px var(--gold-light), 0 0 2px #000; z-index: 12; pointer-events: none; animation: popIn 0.2s ease-out; }
-    @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-
-    .dolly { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 28px; border-radius: 6px; background: linear-gradient(135deg, #e6e6e6, #999, #666); border: 2px solid #fff; box-shadow: 0 5px 12px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.6); z-index: 25; display: none; }
+    .dolly {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 24px; height: 28px; border-radius: 6px;
+      background: linear-gradient(135deg, #e6e6e6, #999, #666);
+      border: 2px solid #fff; box-shadow: 0 5px 12px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.6);
+      z-index: 25; display: none;
+    }
     .dolly::after { content: ''; position: absolute; top: 4px; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle, #ff4444, #a00000); box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
     .win-highlight { box-shadow: 0 0 14px 5px var(--gold-light) !important; border-color: var(--gold) !important; }
 
@@ -83,24 +108,18 @@
     .controls label { background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--gold); }
     .controls input { width: 80px; padding: 8px; border: none; border-radius: 5px; text-align: center; font-weight: bold; font-size: 1rem; background: rgba(0,0,0,0.2); color: var(--gold-light); }
     .controls input:focus { outline: 2px solid var(--gold); }
-    
     button { padding: 10px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; letter-spacing: 0.5px; }
     #spinBtn { background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: #000; box-shadow: 0 5px 0 #997a15, 0 4px 12px rgba(0,0,0,0.4); }
     #spinBtn:hover { filter: brightness(1.1); } #spinBtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #997a15; }
     #spinBtn:disabled { background: #555; cursor: not-allowed; box-shadow: none; }
     #clearBtn { background: linear-gradient(180deg, #e74c3c, #c0392b); color: white; box-shadow: 0 5px 0 #8b1a10, 0 4px 12px rgba(0,0,0,0.4); }
-    
+    #clearBtn:hover { filter: brightness(1.15); } #clearBtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #8b1a10; }
+
     .loan-btn { background: linear-gradient(180deg, #3498db, #2980b9); color: white; padding: 6px 12px; font-size: 0.85rem; margin-left: 5px; border-radius: 4px; }
     .repay-btn { background: linear-gradient(180deg, #9b59b6, #8e44ad); color: white; padding: 6px 12px; font-size: 0.85rem; margin-left: 5px; border-radius: 4px; }
 
     .result-display { text-align: center; font-size: 1.4rem; min-height: 38px; color: var(--gold-light); font-weight: bold; text-shadow: 1px 1px 4px #000; letter-spacing: 1px; }
-    
-    /* MONEY RAIN ANIMATION */
-    .money-rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }
-    .money-piece { position: absolute; top: -50px; font-size: 2rem; user-select: none; animation: fall linear forwards; }
-    @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
-
-    @media (max-width: 900px) { .roulette-table { grid-template-columns: 45px repeat(12, 1fr); grid-template-rows: repeat(3, 48px); } .outside-grid { grid-template-columns: repeat(2, 1fr); } .cell { font-size: 0.85rem; } }
+    @media (max-width: 900px) { .roulette-table { grid-template-columns: 45px repeat(12, 1fr) 45px; grid-template-rows: repeat(3, 48px); } .outside-grid { grid-template-columns: repeat(2, 1fr); } .cell { font-size: 0.85rem; } }
   </style>
 </head>
 <body>
@@ -117,11 +136,11 @@
 
   <div class="container" id="gameContainer">
     <header>
-      <h1>🎰 Vegas Roulette (Synced)</h1>
+      <h1>🎰 Vegas Roulette</h1>
       <div class="stats">
-        <div class="stat-box">Användare: <span id="userDisplay" style="color:var(--gold-light);"></span></div>
+        <div class="stat-box">Spelare: <span id="userDisplay" style="color:var(--gold-light);"></span></div>
         <div class="stat-box">Netto-Saldo: <span id="netSaldo">0</span></div>
-        <div class="stat-box">Marker på hand: $<span id="balance">0</span></div>
+        <div class="stat-box">Marker: $<span id="balance">0</span></div>
         <div class="stat-box">
           Skuld: $<span id="loanDisplay">0</span>
           <button class="loan-btn" onclick="takeLoan()">Låna $1000</button>
@@ -141,23 +160,24 @@
     </div>
 
     <div class="table-section">
-      <div class="number-grid-wrapper">
-        <div class="roulette-table" id="numberGrid"></div>
-      </div>
+      <div class="roulette-table" id="numberGrid"></div>
       <div class="outside-grid" id="outsideGrid"></div>
     </div>
 
     <div class="controls">
-      <label>Insats: $<input type="number" id="betAmount" value="10" min="5" step="5"></label>
+      <label>Bet: $<input type="number" id="betAmount" value="10" min="1" step="5"></label>
       <button id="spinBtn">🎲 SPIN</button>
-      <button id="clearBtn">🗑️ Rensa spel</button>
+      <button id="clearBtn">🗑️ Clear Bets</button>
     </div>
-    <div class="result-display" id="resultText">Placera dina insatser...</div>
+    <div class="result-display" id="resultText">Click anywhere to enable sound • Place your bets...</div>
   </div>
 
   <script>
-    // 🌐 BACKEND CONFIGURATION
-    const WORKER_URL = 'https://broad-flower-970d.johan-oestberg.workers.dev/'; // <-- ÄNDRA TILL DIN WORKER-URL HÄR!
+    // 🌐 BACKEND KONFIGURATION
+    const WORKER_URL = 'https://broad-flower-970d.johan.workers.dev'; // <-- SÄKERSTÄLL ATT DENNA ÄR RÄTT
+
+    // Säkerhetsspärr mot dubbla snedstreck (Tar bort eventuella snedstreck i slutet av URL:en)
+    const CLEAN_WORKER_URL = WORKER_URL.replace(/\/+$/, '');
 
     // 🎵 AUDIO SYSTEM
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -201,13 +221,13 @@
       }
     };
 
-    // 🎲 GAME STATE
+    // 🎲 GAME LOGIC & STATE
     const state = { username: "", balance: 0, loan_amount: 0, bets: {}, isSpinning: false };
     let isLoginView = true;
 
-    const europeanSequence = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+    const americanSequence = [0,28,9,26,30,11,7,20,32,17,5,22,34,15,3,24,36,13,1,00,27,10,25,29,12,8,19,31,18,6,21,33,16,4,23,35,14,2];
     const redNums = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
-    const pocketAngle = 360 / 37;
+    const pocketAngle = 360 / 38;
     const cx = 160, cy = 160, rOuter = 150, rInner = 95;
 
     const wheel = document.getElementById('wheel');
@@ -219,7 +239,7 @@
     const clearBtn = document.getElementById('clearBtn');
     const resultText = document.getElementById('resultText');
 
-    // AUTH UI TRIGGERS
+    // AUTH UI INTERACTION
     document.getElementById('authToggle').addEventListener('click', () => {
       isLoginView = !isLoginView;
       document.getElementById('authTitle').textContent = isLoginView ? 'Logga in till Vegas Table' : 'Registrera nytt konto';
@@ -233,7 +253,7 @@
       const path = isLoginView ? '/api/login' : '/api/register';
 
       try {
-        const res = await fetch(`${WORKER_URL}${path}`, {
+        const res = await fetch(`${CLEAN_WORKER_URL}${path}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: u, password: p })
@@ -258,7 +278,7 @@
     async function takeLoan() {
       if(state.isSpinning) return;
       try {
-        const res = await fetch(`${WORKER_URL}/api/loan`, {
+        const res = await fetch(`${CLEAN_WORKER_URL}/api/loan`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: state.username, amount: 1000 })
@@ -274,7 +294,7 @@
       if(state.isSpinning) return;
       if(state.loan_amount <= 0) return alert('Du har inga aktiva lån att betala av!');
       try {
-        const res = await fetch(`${WORKER_URL}/api/repay`, {
+        const res = await fetch(`${CLEAN_WORKER_URL}/api/repay`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: state.username, amount: 1000 })
@@ -286,12 +306,12 @@
       } catch(e) { alert(e.message); }
     }
 
-    // BUILD WHEEL & GRID
+    // Build SVG Wheel
     function buildWheel() {
       let svg = `<circle cx="${cx}" cy="${cy}" r="${rOuter}" fill="#111"/>`;
-      for (let i = 0; i < 37; i++) {
-        const n = europeanSequence[i]; const start = i * pocketAngle; const end = (i+1)*pocketAngle; const mid = start + pocketAngle/2;
-        const color = (n===0) ? '#27ae60' : (redNums.has(n) ? '#c0392b' : '#1a1a1a');
+      for (let i = 0; i < 38; i++) {
+        const n = americanSequence[i]; const start = i * pocketAngle; const end = (i+1)*pocketAngle; const mid = start + pocketAngle/2;
+        const color = (n===0 || n===`00`) ? '#27ae60' : (redNums.has(n) ? '#c0392b' : '#1a1a1a');
         const rad = d => d*Math.PI/180;
         const x1=cx+rOuter*Math.cos(rad(start-90)), y1=cy+rOuter*Math.sin(rad(start-90));
         const x2=cx+rOuter*Math.cos(rad(end-90)), y2=cy+rOuter*Math.sin(rad(end-90));
@@ -305,11 +325,13 @@
       wheel.innerHTML = svg;
     }
 
+    // Build Table
     const zero = createCell('0', 'green zero', 'straight', '0');
+    const doubleZero = createCell('00', 'green double-zero', 'straight', '00');
     numberGrid.appendChild(zero);
     const rows = [[3,6,9,12,15,18,21,24,27,30,33,36],[2,5,8,11,14,17,20,23,26,29,32,35],[1,4,7,10,13,16,19,22,25,28,31,34]];
     rows.flat().forEach(n => numberGrid.appendChild(createCell(n.toString(), redNums.has(n)?'red':'black', 'number', n.toString())));
-    
+    numberGrid.appendChild(doubleZero);
     [{l:'1st 12',t:'dozen',v:'1'},{l:'2nd 12',t:'dozen',v:'2'},{l:'3rd 12',t:'dozen',v:'3'},{l:'1-18',t:'low',v:'low'},{l:'EVEN',t:'even',v:'even'},{l:'RED',t:'color',v:'red'},{l:'BLACK',t:'color',v:'black'},{l:'ODD',t:'odd',v:'odd'},{l:'19-36',t:'high',v:'high'},{l:'COL 1',t:'column',v:'1'},{l:'COL 2',t:'column',v:'2'},{l:'COL 3',t:'column',v:'3'}].forEach(b => outsideGrid.appendChild(createCell(b.l, '', b.t, b.v)));
 
     function createCell(label, colorClass, type, val) {
@@ -320,51 +342,18 @@
     function placeBet(type, val, cell) {
       if(state.isSpinning) return;
       const amount = parseInt(betInput.value)||10;
-      if(amount > state.balance) return alert('Du har inte tillräckligt med marker på hand!');
-      if(amount < 1) return;
-      const key=`${type}_${val}`; state.bets[key]=(state.bets[key]||0)+amount; state.balance-=amount; updateUI(); renderChip(cell, state.bets[key]); updateMarkers(); sound.chip();
+      if(amount>state.balance) return alert('Du har inte tillräckligt med marker på hand!');
+      if(amount<1) return;
+      const key=`${type}_${val}`; state.bets[key]=(state.bets[key]||0)+amount; state.balance-=amount; updateUI(); renderChip(cell, state.bets[key]); sound.chip();
     }
-
     function renderChip(cell, amount) {
       let chip=cell.querySelector('.chip'); if(!chip){chip=document.createElement('div');chip.className='chip';cell.appendChild(chip);} chip.textContent=amount;
     }
-
-    function getNumbersForBet(type, val) {
-      let nums = []; if (type === 'straight' || type === 'number') { nums.push(parseInt(val, 10)); } else {
-        for (let n = 1; n <= 36; n++) {
-          let match = false; const isRed = redNums.has(n); const isEven = n % 2 === 0;
-          switch(type) {
-            case 'dozen': if ((val === '1' && n >= 1 && n <= 12) || (val === '2' && n >= 13 && n <= 24) || (val === '3' && n >= 25 && n <= 36)) match = true; break;
-            case 'column': if (((n - 1) % 3 + 1).toString() === val) match = true; break;
-            case 'color': if ((val === 'red' && isRed) || (val === 'black' && !isRed)) match = true; break;
-            case 'even': if (isEven) match = true; break;
-            case 'odd': if (!isEven) match = true; break;
-            case 'low': if (n >= 1 && n <= 18) match = true; break;
-            case 'high': if (n >= 19 && n <= 36) match = true; break;
-          }
-          if (match) nums.push(n);
-        }
-      } return nums;
-    }
-
-    function updateMarkers() {
-      document.querySelectorAll('.bet-marker').forEach(m => m.remove());
-      for (let key in state.bets) {
-        if (state.bets[key] <= 0) continue; const [type, val] = key.split('_');
-        const betCell = document.querySelector(`[data-type="${type}"][data-val="${val}"]`);
-        if (betCell && !betCell.querySelector('.bet-marker')) { const m = document.createElement('div'); m.className = 'bet-marker'; betCell.appendChild(m); }
-        getNumbersForBet(type, val).forEach(n => {
-          const cellType = (n === 0) ? 'straight' : 'number'; const targetCell = document.querySelector(`[data-type="${cellType}"][data-val="${n}"]`);
-          if (targetCell && !targetCell.querySelector('.bet-marker')) { const m = document.createElement('div'); m.className = 'bet-marker'; targetCell.appendChild(m); }
-        });
-      }
-    }
-
+    
     function updateUI() {
       document.getElementById('balance').textContent = Math.floor(state.balance);
       document.getElementById('loanDisplay').textContent = Math.floor(state.loan_amount);
       
-      // Beräkna netto-saldo (Tillgång eller Skuld)
       const net = state.balance - state.loan_amount;
       const netEl = document.getElementById('netSaldo');
       
@@ -381,25 +370,9 @@
       if(state.isSpinning) return;
       for(let k in state.bets) state.balance+=state.bets[k]; state.bets={};
       document.querySelectorAll('.chip').forEach(c=>c.remove());
-      document.querySelectorAll('.bet-marker').forEach(m=>m.remove());
       document.querySelectorAll('.win-highlight').forEach(c=>c.classList.remove('win-highlight'));
       document.querySelectorAll('.dolly').forEach(d=>d.remove());
-      updateUI(); resultText.textContent='Spel rensade.';
-    }
-
-    function triggerMoneyRain() {
-      const container = document.createElement('div'); container.className = 'money-rain-container'; document.body.appendChild(container);
-      const items = ['💵', '💰', '🪙', '✨', '💸'];
-      for (let i = 0; i < 60; i++) {
-        const piece = document.createElement('div'); piece.className = 'money-piece';
-        piece.textContent = items[Math.floor(Math.random() * items.length)];
-        piece.style.left = Math.random() * 100 + 'vw';
-        piece.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
-        piece.style.animationDelay = (Math.random() * 1.2) + 's';
-        piece.style.fontSize = (Math.random() * 1.5 + 1.2) + 'rem';
-        container.appendChild(piece);
-      }
-      setTimeout(() => { container.remove(); }, 5000);
+      updateUI(); resultText.textContent='Bets cleared.';
     }
 
     spinBtn.addEventListener('click', spinWheel);
@@ -407,13 +380,13 @@
 
     function spinWheel() {
       if(state.isSpinning) return;
-      if(Object.keys(state.bets).length===0) return alert('Placera en insats först!');
+      if(Object.keys(state.bets).length===0) return alert('Place at least one bet!');
       state.isSpinning=true; spinBtn.disabled=true;
       document.querySelectorAll('.dolly').forEach(d=>d.remove());
       document.querySelectorAll('.win-highlight').forEach(c=>c.classList.remove('win-highlight'));
-      resultText.textContent='Hjulet snurrar...';
+      resultText.textContent='Spinning...';
 
-      const winIndex=Math.floor(Math.random()*37); const winNum=europeanSequence[winIndex];
+      const winIndex=Math.floor(Math.random()*38); const winNum=americanSequence[winIndex];
       const finalRotation=-(winIndex*pocketAngle)-(3+Math.floor(Math.random()*2))*360;
 
       wheel.style.transition='none'; wheel.style.transform='rotate(0deg)';
@@ -430,14 +403,19 @@
       const start=performance.now(); let lastTickP=0;
       function frame(now) {
         const elapsed=now-start; const progress=Math.min(elapsed/duration, 1);
-        const ease=1-Math.pow(1-progress, 4); const currentR=130-(ease*(130-118));
+        const ease=1-Math.pow(1-progress, 4);
+        const currentR=130-(ease*(130-118));
         const angle=(15*progress*360)%360; const rad=angle*Math.PI/180;
-        ball.style.left=`${cx+currentR*Math.cos(rad)}px`; ball.style.top=`${cy+currentR*Math.sin(rad)}px`;
+        ball.style.left=`${cx+currentR*Math.cos(rad)}px`;
+        ball.style.top=`${cy+currentR*Math.sin(rad)}px`;
+
         if(progress-lastTickP > (0.04-ease*0.035)) { sound.tick(); lastTickP=progress; }
+
         if(progress<1) requestAnimationFrame(frame);
         else {
           ball.style.transition='top 0.4s ease-out, width 0.2s, height 0.2s';
-          ball.style.left='50%'; ball.style.top='22px'; ball.style.width='14px'; ball.style.height='14px';
+          ball.style.left='50%'; ball.style.top='22px';
+          ball.style.width='14px'; ball.style.height='14px';
           setTimeout(()=>{ ball.style.transition=''; onComplete(); }, 450);
         }
       }
@@ -445,22 +423,22 @@
     }
 
     async function resolveSpin(result) {
-      const n=parseInt(result, 10);
-      const isRed=redNums.has(n);
+      const n=parseInt(result)||(result===`0`?0:-1);
+      const isRed=redNums.has(n), isBlack=n>0&&!redNums.has(n);
       const isEven=n>0&&n%2===0, isOdd=n>0&&n%2!==0;
       const isLow=n>=1&&n<=18, isHigh=n>=19&&n<=36;
       let totalWin=0;
 
-      const winCell=document.querySelector(`[data-val="${result.toString()}"]`);
+      const winCell=document.querySelector(`[data-val="${n===-1?'00':n.toString()}"]`);
       if(winCell) { winCell.classList.add('win-highlight'); const d=document.createElement('div'); d.className='dolly'; d.style.display='block'; winCell.appendChild(d); }
 
       for(let key in state.bets) {
         const amount=state.bets[key]; const [type,val]=key.split('_'); let won=false,mult=0;
         switch(type) {
           case 'straight': case 'number': if(val===result.toString()){won=true;mult=35;} break;
-          case 'dozen': if((val==='1'&&n>=1&&n<=12)||(val==='2'&&n>=13&&n<=24)||(val==='3'&&isHigh)){won=true;mult=2;} break;
+          case 'dozen': if((val==='1'&&isLow)||(val==='2'&&n>=13&&n<=24)||(val==='3'&&isHigh)){won=true;mult=2;} break;
           case 'column': if(n>0){const col=(n-1)%3+1; if(val===col.toString()){won=true;mult=2;}} break;
-          case 'color': if((val==='red'&&isRed)||(val==='black'&&!isRed&&n>0)){won=true;mult=1;} break;
+          case 'color': if((val==='red'&&isRed)||(val==='black'&&isBlack)){won=true;mult=1;} break;
           case 'even': if(isEven){won=true;mult=1;} break;
           case 'odd': if(isOdd){won=true;mult=1;} break;
           case 'low': if(isLow){won=true;mult=1;} break;
@@ -470,28 +448,25 @@
       }
 
       state.balance += totalWin;
-      
-      // Synkronisera med servern och applicera räntepåslaget (sker på backend)
+
+      // Synka med databasen (Hanterar även räntan på backend)
       try {
-        const res = await fetch(`${WORKER_URL}/api/sync`, {
+        const res = await fetch(`${CLEAN_WORKER_URL}/api/sync`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: state.username, balance: state.balance })
         });
         const data = await res.json();
-        
-        // Hämta serverns exakta beräkningar (inklusive uppdaterat lån + ränta)
         state.balance = data.balance;
         state.loan_amount = data.loan_amount;
       } catch(e) { console.error("Synkfel: ", e); }
 
       updateUI();
-      if(totalWin>0) { sound.win(); triggerMoneyRain(); }
-      resultText.textContent=`Resultat: ${result} | Vinst: $${totalWin}`;
+      if(totalWin>0) sound.win();
+      resultText.textContent=`Result: ${result} | Payout: $${totalWin}`;
       
       setTimeout(()=>{
         document.querySelectorAll('.chip').forEach(c=>c.remove());
-        document.querySelectorAll('.bet-marker').forEach(m=>m.remove());
         state.bets={}; state.isSpinning=false; spinBtn.disabled=false;
       }, 2500);
     }
